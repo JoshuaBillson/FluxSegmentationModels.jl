@@ -14,6 +14,7 @@ include("decoders/unet.jl")
 include("decoders/deeplab.jl")
 include("decoders/segformer.jl")
 include("decoders/setr.jl")
+export FPNDecoder, UNetDecoder, SegFormerDecoder
 
 # Write your package code here.
 

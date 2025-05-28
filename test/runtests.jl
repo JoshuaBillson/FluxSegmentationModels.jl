@@ -19,9 +19,14 @@ const RESNET50_ENCODER_SCALES = [4,8,16,32]
     resnet_features = generate_features(RESNET50_ENCODER_DIMS, RESNET50_ENCODER_SCALES; imsize=IMSIZE)
 
     # Test UNet Decoder
-    standard_unet_decoder = FluxSegmentationModels.UNetDecoder(UNET_ENCODER_DIMS, UNET_ENCODER_SCALES)
+    standard_unet_decoder = UNetDecoder(UNET_ENCODER_DIMS, UNET_ENCODER_SCALES)
+    resnet_unet_decoder = UNetDecoder(RESNET50_ENCODER_DIMS, RESNET50_ENCODER_SCALES; decoder_dims=RESNET50_ENCODER_DIMS[1:3])
     @test size(standard_unet_decoder(unet_features)) == (IMSIZE,IMSIZE,64,1)
+    @test size(resnet_unet_decoder(resnet_features)) == (IMSIZE÷4,IMSIZE÷4,256,1)
 
-    resnet_unet_decoder = FluxSegmentationModels.UNetDecoder(RESNET50_ENCODER_DIMS, RESNET50_ENCODER_SCALES; decoder_dims=RESNET50_ENCODER_DIMS[1:3])
+    # Test FPN Decoder
+    standard_fpn_decoder = FPNDecoder(UNET_ENCODER_DIMS, UNET_ENCODER_SCALES)
+    resnet_fpn_decoder = FPNDecoder(RESNET50_ENCODER_DIMS, RESNET50_ENCODER_SCALES)
+    @test size(standard_fpn_decoder(unet_features)) == (IMSIZE,IMSIZE,256,1)
     @test size(resnet_unet_decoder(resnet_features)) == (IMSIZE÷4,IMSIZE÷4,256,1)
 end
