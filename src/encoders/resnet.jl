@@ -3,7 +3,7 @@ struct ResNet <: EncoderConfig
     pretrain::Bool
 end
 
-function ResNet(;depth=50, pretrain=true)
+function ResNet(;depth=50, pretrain=false)
     @argcheck depth in (18,34,50,101,152)
     return ResNet(depth, pretrain)
 end

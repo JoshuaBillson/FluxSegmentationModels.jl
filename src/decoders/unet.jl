@@ -20,6 +20,7 @@ function UNetDecoder(encoder_dims::AbstractVector{<:Integer}, encoder_scales::Ab
 
     # Create Decoder Blocks
     decoder_blocks = Any[]
+    decoder_dims = decoder_dims[1:length(encoder_dims)-1]
     skip_dims = encoder_dims[1:end-1]
     up_dims = vcat(decoder_dims[2:end], encoder_dims[end])
     up_factors = vcat([1], encoder_scales[2:end] .÷ encoder_scales[1:end-1])
