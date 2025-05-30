@@ -11,6 +11,7 @@ Metalhead = "dbeba491-748d-5e0e-a39e-b530a07fa0cc"
 Pipe = "b98c9c47-44ae-5843-9183-064241ee97a0"
 
 [compat]
+Metalhead = "0.9"
 julia = "1.6.7"
 
 [extras]
