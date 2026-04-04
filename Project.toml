@@ -12,6 +12,7 @@ PartialFunctions = "570af359-4316-4cb7-8c74-252c00c2016b"
 Pipe = "b98c9c47-44ae-5843-9183-064241ee97a0"
 
 [compat]
+ArgCheck = "2"
 PartialFunctions = "1.2.1"
 julia = "1.6.7"
 
