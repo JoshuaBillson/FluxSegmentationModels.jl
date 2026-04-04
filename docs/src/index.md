@@ -4,22 +4,7 @@ CurrentModule = FluxSegmentationModels
 
 # FluxSegmentationModels
 
-Documentation for [FluxSegmentationModels](https://github.com/JoshuaBillson/FluxSegmentationModels.jl).
-
-
-# Available Encoders
-
-| Model    | Source                                                                                                                                        | Implemented        |
-| :------- | :-------------------------------------------------------------------------------------------------------------------------------------------- | :----------------: |
-| ResNet   | [Deep Residual Learning for Image Recognition](https://doi.org/10.48550/arXiv.1512.03385)                                                     | ✅                 |
-| ConvNeXt | [A ConvNet for the 2020s](https://doi.org/10.48550/arXiv.2201.03545)                                                                          | ✅                 |
-| ViT      | [An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale](https://doi.org/10.48550/arXiv.2010.11929)                       | ✅                 |
-
-```@docs
-ResNet
-ConvNeXt
-ViT
-```
+[FluxSegmentationModels](https://github.com/JoshuaBillson/FluxSegmentationModels.jl) is a pure Julia package implementing various semantic segmentation models in [Flux](https://fluxml.ai/Flux.jl/stable/).
 
 # Available Segmentation Models
 
@@ -35,4 +20,18 @@ UNet
 FPN
 SegFormer
 SETR
+```
+
+# Available Encoders
+
+| Model    | Source                                                                                                                                        | Implemented        |
+| :------- | :-------------------------------------------------------------------------------------------------------------------------------------------- | :----------------: |
+| ResNet   | [Deep Residual Learning for Image Recognition](https://doi.org/10.48550/arXiv.1512.03385)                                                     | ✅                 |
+| ConvNeXt | [A ConvNet for the 2020s](https://doi.org/10.48550/arXiv.2201.03545)                                                                          | ✅                 |
+| ViT      | [An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale](https://doi.org/10.48550/arXiv.2010.11929)                       | ✅                 |
+
+```@docs
+ResNet
+ConvNeXt
+ViT
 ```

@@ -5,6 +5,8 @@
 [![Build Status](https://github.com/JoshuaBillson/FluxSegmentationModels.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/JoshuaBillson/FluxSegmentationModels.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Coverage](https://codecov.io/gh/JoshuaBillson/FluxSegmentationModels.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/JoshuaBillson/FluxSegmentationModels.jl)
 
+[FluxSegmentationModels](https://github.com/JoshuaBillson/FluxSegmentationModels.jl) is a pure Julia package implementing various semantic segmentation models in [Flux](https://fluxml.ai/Flux.jl/stable/).
+
 ## Available Models
 
 | Model     | Source                                                                                                                                        | Implemented        |
