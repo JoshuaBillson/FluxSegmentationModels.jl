@@ -8,10 +8,12 @@ ArgCheck = "dce04be8-c92d-5529-be00-80e4d2c0e197"
 Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
 Match = "7eb4fadd-790c-5f42-8a69-bfa0b872bfbf"
 Metalhead = "dbeba491-748d-5e0e-a39e-b530a07fa0cc"
+PartialFunctions = "570af359-4316-4cb7-8c74-252c00c2016b"
 Pipe = "b98c9c47-44ae-5843-9183-064241ee97a0"
 
 [compat]
 ArgCheck = "2"
+PartialFunctions = "1.2.1"
 julia = "1.6.7"
 
 [extras]
