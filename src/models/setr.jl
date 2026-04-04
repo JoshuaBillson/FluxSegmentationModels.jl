@@ -1,7 +1,7 @@
 """
 
     SETR(encoder_config::EncoderConfig; inchannels=3, kw...)
-    SETR(encoder, encoder_dims; encoder_blocks=(3,6,9,12), patchsize=(16,16), batch_norm=true, nclasses=1)
+    SETR(encoder, encoder_dims; patchsize=(16,16), batch_norm=true, nclasses=1)
 
 Construct a SETR style segmentation model.
 
@@ -9,7 +9,6 @@ Construct a SETR style segmentation model.
 - `encoder_config`: An `EncoderConfig` object specifying the architecture and configuration of the encoder to be built and used in the SETR.
 - `encoder`: A `Flux.Chain` layer containing the blocks of the encoder to be used in the SETR.
 - `encoder_dims`: A tuple containing the feature dimension of each encoder block output ordered from first to last.
-- `encoder_blocks`: A tuple containing the indices of the encoder blocks to be used in the decoder ordered from first to last. Default is `(3,6,9,12)`.
 - `patchsize`: The patch size to use for the input to the encoder. Default is `(16,16)`.
 - `batch_norm`: If true, a batch norm operation will be applied after each convolution in the decoder. Default is `true`.
 - `nclasses`: The number of output classes for the segmentation task. Default is `1`.
@@ -32,17 +31,15 @@ function SETR(encoder_config::EncoderConfig; inchannels=3, kw...)
     )
 end
 
-function SETR(encoder, encoder_dims; encoder_blocks=(3,6,9,12), patchsize=(16,16), batch_norm=true, nclasses=1)
-    @argcheck all(encoder_blocks .> 0)
-    @argcheck issorted(encoder_blocks)
+function SETR(encoder, encoder_dims; patchsize=(16,16), batch_norm=true, nclasses=1)
     @argcheck all(patchsize .> 0)
     @argcheck nclasses > 0
 
     return SETR(
         patchsize, 
-        encoder_blocks,
+        round.(Int, (0.25, 0.5, 0.75, 1.0) .* length(encoder_dims)), 
         encoder,
-        SETRDecoder(encoder_dims[end]; n_features=length(encoder_blocks), batch_norm),
+        SETRDecoder(encoder_dims[end]; n_features=4, batch_norm),
         SegmentationHead(encoder_dims[end], nclasses)
     )
 end

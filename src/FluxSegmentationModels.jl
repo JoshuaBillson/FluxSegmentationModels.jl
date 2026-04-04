@@ -18,14 +18,14 @@ export ResNet, ViT, ConvNeXt
 
 include("decoders/fpn.jl")
 include("decoders/unet.jl")
-#include("decoders/segformer.jl")
+include("decoders/segformer.jl")
 include("decoders/setr.jl")
 #export FPNDecoder, UNetDecoder, SegFormerDecoder, SETRDecoder
 
-include("models/base.jl")
 include("models/unet.jl")
 include("models/fpn.jl")
 include("models/setr.jl")
-export UNet, FPN, SETR
+include("models/segformer.jl")
+export UNet, FPN, SETR, SegFormer
 
 end

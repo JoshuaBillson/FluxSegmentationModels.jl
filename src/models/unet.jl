@@ -1,11 +1,3 @@
-struct UNet{E,D,H}
-    encoder::E
-    decoder::D
-    head::H
-end
-
-Flux.@layer :expand UNet
-
 """
     UNet(encoder_config; decoder_dims=(64,128,256,512,1024), batch_norm=true, upsample_method=:nearest, nclasses=1, inchannels=3)
     UNet(encoder, encoder_dims; decoder_dims=(64,128,256,512,1024), batch_norm=true, upsample_method=:nearest, nclasses=1)
@@ -22,6 +14,14 @@ Construct a U-Net style segmentation model.
 - `nclasses`: The number of output classes for the segmentation task.
 - `upsample_method`: The method to use for upsampling. Can be `:nearest` or `:bilinear`.
 """
+struct UNet{E,D,H}
+    encoder::E
+    decoder::D
+    head::H
+end
+
+Flux.@layer :expand UNet
+
 function UNet(encoder_config::EncoderConfig; inchannels=3, kw...)
     return UNet(
         extract_encoder(build_encoder(encoder_config; inchannels)), 

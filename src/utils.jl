@@ -51,7 +51,6 @@ concatenate_features_bilinear(xs::Tuple) = concatenate_features(xs; method=:bili
 
 concatenate_features(xs...; kw...) = concatenate_features(xs; kw...)
 function concatenate_features(xs::NTuple{N,<:AbstractArray{<:Real,D}}; method=:nearest) where {N,D}
-    return cat(xs..., dims=D-1)
     up_size = max_feature_size(xs)
     return cat(map(x -> upsample_features(x, up_size; method), xs)...; dims=D-1)
 end

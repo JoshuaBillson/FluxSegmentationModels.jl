@@ -20,7 +20,7 @@ Flux.@layer :expand SegFormerDecoder
 
 function SegFormerDecoder(encoder_dims::NTuple{N,Int}; embed_dim=768, dropout=0.0) where N
     mlps = Flux.Parallel(
-        concatenate_features ∘ upsample_features,
+        concatenate_features_bilinear,
         [Flux.Conv((1,1), dim=>embed_dim) for dim in encoder_dims]...
     )
 
