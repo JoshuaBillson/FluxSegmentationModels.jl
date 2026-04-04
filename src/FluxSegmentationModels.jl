@@ -1,29 +1,31 @@
 module FluxSegmentationModels
 
 import Flux, Metalhead
-using Match, ArgCheck
+using Match, ArgCheck, PartialFunctions
 using Pipe: @pipe
+
+Flux._show_leaflike(::Tuple{}) = true
+
+include("utils.jl")
 
 include("layers.jl")
 
 include("encoders/interface.jl")
 include("encoders/resnet.jl")
-export ResNet
+include("encoders/vit.jl")
+include("encoders/convnext.jl")
+export ResNet, ViT, ConvNeXt
 
 include("decoders/fpn.jl")
 include("decoders/unet.jl")
-include("decoders/deeplab.jl")
-include("decoders/segformer.jl")
+#include("decoders/segformer.jl")
 include("decoders/setr.jl")
-export FPNDecoder, UNetDecoder, SegFormerDecoder
+#export FPNDecoder, UNetDecoder, SegFormerDecoder, SETRDecoder
 
 include("models/base.jl")
 include("models/unet.jl")
-export UNet
-
-# Write your package code here.
-function generate_features(encoder_dims, encoder_scales; imsize=256)
-    return tuple([rand(Float32, imsize ÷ scale, imsize ÷ scale, dim, 1) for (dim, scale) in zip(encoder_dims, encoder_scales)]...)
-end
+include("models/fpn.jl")
+include("models/setr.jl")
+export UNet, FPN, SETR
 
 end

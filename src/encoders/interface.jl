@@ -41,12 +41,13 @@ end
 abstract type EncoderConfig end
 
 """
-    build_encoder(encoder::EncoderConfig)
+    build_encoder(encoder::EncoderConfig; inchannels=3)
 
 Constructs an encoder model based on the provided `EncoderConfig` configuration.
 
 # Parameters
 - `encoder`: An `EncoderConfig` object specifying the architecture and configuration of the encoder to be built.
+- `inchannels`: The number of channels in the input image. Default is `3` for RGB images.
 
 # Returns
 A standard `Flux.Chain` layer containing each block of the encoder.
@@ -59,18 +60,24 @@ encoder = build_encoder(ResNet(depth=50, pretrain=true))
 """
 function build_encoder end
 
-struct EncoderFeature
-    dim::Int
-    scale::Int
+"""
+    encoder_block_dims(encoder::EncoderConfig)
+
+Returns the dimensions of the provided encoder blocks.
+"""
+function encoder_block_dims end
+
+"""
+    extract_encoder(m::Flux.Chain)
+
+Extracts the encoder blocks from a `Flux.Chain` layer containing an encoder and returns a new `Flux.Chain` layer containing only the encoder blocks.
+"""
+function extract_encoder(m::Flux.Chain)
+    encoder = m.layers.encoder
+    encoder_stem = encoder.layers.stem
+    encoder_body = encoder.layers.body
+    Flux.Chain(
+        Flux.Chain(encoder_stem..., encoder_body[1]...),   # First block includes the stem
+        encoder_body[2:end]...                             # Remaining blocks
+    )
 end
-
-"""
-    encoder_features(encoder::EncoderConfig)
-
-Returns the dimension and scale of the provided encoder.
-"""
-function encoder_features end
-
-encoder_feature_dims(e::EncoderConfig) = [f.dim for f in encoder_features(e)]
-
-encoder_feature_scales(e::EncoderConfig) = [f.scale for f in encoder_features(e)]
