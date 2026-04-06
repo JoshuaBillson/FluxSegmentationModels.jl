@@ -17,8 +17,8 @@ end
 
 encoder_block_dims(x::ConvNeXt) = _convnext_filters(x.config)
 
-function build_encoder(x::ConvNeXt; inchannels=3)
-    model = _build_convnext(x.config, inchannels)
+function build_encoder(x::ConvNeXt; inchannels=3, nclasses=1000)
+    model = _build_convnext(x.config, inchannels, nclasses)
     head = model.layers[2]
     encoder = model.layers[1]
     encoder_stem = encoder[1:2]
@@ -49,15 +49,12 @@ function build_encoder(x::ConvNeXt; inchannels=3)
     )
 end
 
-function _build_convnext(config::Symbol, inchannels::Int)
+function _build_convnext(config::Symbol, inchannels::Int, nclasses::Int)
     _filters = collect(_convnext_filters(config))
     @match config begin
-        :pico => Metalhead.build_convnext([2, 2, 6, 2], _filters; inchannels)
-        :tiny => Metalhead.build_convnext([3, 3, 9, 3], _filters; inchannels)
-        :small => Metalhead.build_convnext([3, 3, 27, 3], _filters; inchannels)
-        :base => Metalhead.build_convnext([3, 3, 27, 3], _filters; inchannels)
-        :large => Metalhead.build_convnext([3, 3, 27, 3], _filters; inchannels)
-        :xlarge => Metalhead.build_convnext([3, 3, 27, 3], _filters; inchannels)
+        :pico => Metalhead.build_convnext([2, 2, 6, 2], _filters; inchannels, nclasses)
+        :tiny => Metalhead.build_convnext([3, 3, 9, 3], _filters; inchannels, nclasses)
+        :small || :base || :large || :xlarge => Metalhead.build_convnext([3, 3, 27, 3], _filters; inchannels, nclasses)
     end
 end
 

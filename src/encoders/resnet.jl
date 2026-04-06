@@ -5,7 +5,7 @@ Configuration for constructing a ResNet encoder.
 
 # Parameters
 - `depth`: The depth of the ResNet architecture. One of `18`, `34`, `50`, `101`, or `152`.
-- `pretrain`: If true, the ResNet encoder will be initialized with pretrained weights from ImageNet. Otherwise, the encoder will be randomly initialized.
+- `pretrain`: If true, the ResNet encoder will be initialized with pretrained weights from ImageNet.
 """
 struct ResNet <: EncoderConfig
     depth::Int
@@ -24,17 +24,21 @@ function encoder_block_dims(e::ResNet)
     end
 end
 
-function build_encoder(e::ResNet; inchannels=3)
-    resnet = _build_resnet(e.depth, inchannels, e.pretrain)
+function build_encoder(e::ResNet; inchannels=3, nclasses=1000)
+    # Construct Encoder
+    model = Metalhead.ResNet(e.depth; inchannels, e.pretrain)
+    encoder_stem = model.layers[1][1]
+    encoder_body = model.layers[1][2:5]
+
+    # Construct Head
+    head = (nclasses == 1000) ? Metalhead.ResNet(e.depth; nclasses, pretrain=false).layers[2] : model.layers[2]
+
+    # Assemble Encoder and Head into a single Chain
     Flux.Chain(
         encoder = Flux.Chain(
-            stem = resnet.layers[1][1], 
-            body = resnet.layers[1][2:5]
+            stem = encoder_stem, 
+            body = encoder_body
         ), 
-        head = resnet.layers[2]
+        head = head
     )
-end
-
-function _build_resnet(depth::Int, inchannels::Int, pretrain::Bool)
-    return Metalhead.ResNet(depth; inchannels, pretrain)
 end

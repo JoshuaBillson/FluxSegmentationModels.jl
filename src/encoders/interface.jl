@@ -23,7 +23,7 @@ function encoder_features(e::ResNet)
     end
 end
 
-function build_encoder(e::ResNet; inchannels=3)
+function build_encoder(e::ResNet; inchannels=3, nclasses=1000)
     resnet = _build_resnet(e.depth, inchannels, e.pretrain)
     Flux.Chain(
         Flux.Chain(resnet[1]..., resnet[2]...),
@@ -41,7 +41,7 @@ end
 abstract type EncoderConfig end
 
 """
-    build_encoder(encoder::EncoderConfig; inchannels=3)
+    build_encoder(encoder::EncoderConfig; inchannels=3, nclasses=1000)
 
 Constructs an encoder model based on the provided `EncoderConfig` configuration.
 

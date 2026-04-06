@@ -1,24 +1,14 @@
 using FluxSegmentationModels
 using Test
 
-function generate_features(encoder_dims, encoder_scales; imsize=256)
-    return tuple([rand(Float32, imsize ÷ scale, imsize ÷ scale, dim, 1) for (dim, scale) in zip(encoder_dims, encoder_scales)]...)
-end
-
-const IMSIZE = 256
+const IMSIZE = 224
 const CHANNELS = 3
-
-const UNET_ENCODER_DIMS = [64,128,256,512,1024]
-const UNET_ENCODER_SCALES = [1,2,4,8,16]
-
-const RESNET50_ENCODER_DIMS = [256,512,1024,2048]
-const RESNET50_ENCODER_SCALES = [4,8,16,32]
 
 @testset "FluxSegmentationModels.jl" begin
     # Encoder Configurations
     RESNETS = [ResNet(depth=d) for d in (18, 34, 50, 101, 152)]
     CONVNEXTS = [ConvNeXt(config=c) for c in (:pico, :tiny, :small, :base, :large, :xlarge)]
-    VITS = [ViT(config=c, imsize=(IMSIZE,IMSIZE)) for c in (:tiny, :small, :base, :large, :huge)]
+    VITS = [ViT(config=c, imsize=(IMSIZE,IMSIZE), pretrain=false) for c in (:tiny, :small, :base, :large, :huge)]
     ENCODERS = vcat(RESNETS, CONVNEXTS)
 
     # Generate Dummy Input
