@@ -67,6 +67,6 @@ function vit(config::Symbol; imsize=(224,224), inchannels=3, patchsize=(16,16), 
             stem = encoder[1:4], 
             body = encoder[5]
         ),
-        head = head
+        head = Flux.Chain(x -> x[:,1,:], head)
     )
 end
